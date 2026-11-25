@@ -1,0 +1,71 @@
+import type { ReactNode } from "react";
+import type { Skin } from "../art/skins";
+import { ShellArt } from "./ShellArt";
+
+export type IconId = "feed" | "play" | "rest" | "clean" | "medicine" | "talk" | "stats" | "attention";
+/** Eight icons, like the original handhelds: four above the screen, four below. */
+export const ICONS: { id: IconId; label: string; path: string }[] = [
+  { id: "feed", label: "Feed", path: "M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 0-3 3-3 6s1 4 3 4v8V3z" },
+  { id: "play", label: "Play", path: "M12 4a8 8 0 1 0 0 16a8 8 0 1 0 0-16zM4 12h16M12 4c3 3 3 13 0 16M12 4c-3 3-3 13 0 16" },
+  { id: "rest", label: "Lights / sleep", path: "M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z" },
+  { id: "clean", label: "Clean up", path: "M15 2l-3 9M7 11h10l1.5 9h-13zM10 14v6M14 14v6" },
+  { id: "medicine", label: "Medicine", path: "M8 7h8a5 5 0 0 1 0 10H8A5 5 0 0 1 8 7zM12 7v10" },
+  { id: "talk", label: "Talk", path: "M4 5h16v11H9l-4 4v-4H4z" },
+  { id: "stats", label: "Stats and brain", path: "M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z" },
+  { id: "attention", label: "Attention: your pet wants something", path: "M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18zM12 7v6M12 16.5v.5" },
+];
+
+type Props = {
+  skin: Skin;
+  selected: number;
+  attention: boolean;
+  onIcon: (id: IconId, index: number) => void;
+  onButton: (b: "A" | "B" | "C") => void;
+  children: ReactNode;
+  disabled?: boolean;
+};
+
+export function TamagotchiShell({ skin, selected, attention, onIcon, onButton, children, disabled }: Props) {
+  const iconBtn = (i: number) => {
+    const ic = ICONS[i];
+    const lit = ic.id === "attention" && attention;
+    return (
+      <button
+        key={ic.id}
+        type="button"
+        className={`bezel-icon ${selected === i ? "selected" : ""} ${lit ? "lit" : ""}`}
+        onClick={() => onIcon(ic.id, i)}
+        aria-label={ic.label}
+        title={ic.label}
+        disabled={disabled}
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d={ic.path} />
+        </svg>
+      </button>
+    );
+  };
+
+  return (
+    <div className="device" style={{ ["--edge" as string]: skin.edge }}>
+      <ShellArt skin={skin} />
+      <div className="bezel">
+        <div className="icon-row">{[0, 1, 2, 3].map(iconBtn)}</div>
+        <div className="lcd">{children}</div>
+        <div className="icon-row">{[4, 5, 6, 7].map(iconBtn)}</div>
+      </div>
+      {(["A", "B", "C"] as const).map((b) => (
+        <button
+          key={b}
+          type="button"
+          className={`hw-btn hw-${b}`}
+          onClick={() => onButton(b)}
+          aria-label={b === "A" ? "A: next icon" : b === "B" ? "B: select" : "C: cancel / pat"}
+          title={b === "A" ? "A: next icon" : b === "B" ? "B: select" : "C: cancel / pat"}
+        >
+          <span>{b}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
