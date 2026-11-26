@@ -28,7 +28,7 @@ const HACKATHON: [string, string][] = [
   ["The track", "Retro Remix. We picked the 1990s Tamagotchi and asked what it would be like if it could actually get to know you."],
   ["What we built", "A virtual pet that lives in real time, talks back, listens and speaks, and uses reinforcement learning to learn your routine."],
   ["The team", "Kristina Seren, Ekaterina Gruzer and Anna Parker."],
-  ["Built with", "React, TypeScript, Vite, Express, the Gemini API and the Web Speech API."],
+  ["Built with", "Figma for the design, then React, TypeScript, Vite, Express, the Gemini API and the Web Speech API."],
 ];
 
 /** A white box with a bobbing pet beside the heading and a short list underneath. */

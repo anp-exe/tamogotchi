@@ -6,6 +6,8 @@ A 1990s Tamagotchi reimagined with conversational AI and reinforcement learning.
 
 Hatch one of eight pixel pets, raise it from baby to adult in real time, customise the shell, chat in four modes, and use supported browser voice input and speech output. Core pet interactions and chat remain available through local fallback responses when no Gemini API key is configured.
 
+Designed in Figma and built with React, TypeScript, Vite, Express, the Gemini API and the Web Speech API.
+
 ## Run locally
 
 ```bash
